@@ -16,7 +16,7 @@ echo Shutdown Services
 echo "" 
 
 
-find /root /var/lib/masternodes -type f -name "bitmoney.conf"|grep ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoney-cli -conf="substr($0,1,length($0))" -datadir="substr($0,1,length($0)-14) " stop"}'|sh
+find /root /var/lib/masternodes -type f -iname "bitmoney.conf"|grep -i ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoney-cli -conf="substr($0,1,length($0))" -datadir="substr($0,1,length($0)-14) " stop"}'|sh
 
 systemctl -a|grep bitmoney|grep -v "failed"|awk '{print "*"$0}'|awk '{print "systemctl stop "$2}'|sh
 
@@ -29,7 +29,7 @@ echo ""
 echo Adding nodes
 echo "" 
 
-find /root /var/lib/masternodes/ -type f -name "bitmoney.conf"|grep "bitmoney"|grep -v "bak"|awk '{print "echo addnode=95.179.193.119 >> "substr($0,1,length($0)) " ;  echo addnode=45.32.176.66 >> "substr($0,1,length($0)) " ;  echo addnode=95.179.197.142 >> "substr($0,1,length($0)) " ;  echo addnode=95.179.200.18 >> "substr($0,1,length($0)) }'|sh
+find /root /var/lib/masternodes/ -type f -iname "bitmoney.conf"|grep -i "bitmoney"|grep -v "bak"|awk '{print "echo addnode=95.179.193.119 >> "substr($0,1,length($0)) " ;  echo addnode=45.32.176.66 >> "substr($0,1,length($0)) " ;  echo addnode=95.179.197.142 >> "substr($0,1,length($0)) " ;  echo addnode=95.179.200.18 >> "substr($0,1,length($0)) }'|sh
 
 
 echo ""
@@ -37,14 +37,14 @@ echo Backuping Wallet.dat
 echo "" 
 
 
-find /root /var/lib/masternodes/ -type f -iname "wallet.dat"|grep "bitmoney"|grep -v "bak"|awk -v vdate=$(date +%F_%H-%M-%S) '{print "cp "$0" "$0"_bak_"vdate}'|sh
+find /root /var/lib/masternodes/ -type f -iname "wallet.dat"|grep -i "bitmoney"|grep -v "bak"|awk -v vdate=$(date +%F_%H-%M-%S) '{print "cp "$0" "$0"_bak_"vdate}'|sh
 
 echo ""
 echo Removing Old Files 
 echo "" 
 
 
-find /root /var/lib/masternodes/ -type f -iname "wallet.dat"|grep "bitmoney"|grep -v "bak"|awk '{print "cd "substr($0,1,length($0)-10) " ; rm -rf budget.dat banlist.dat fee_estimates.dat mncache.dat mnpayments.dat peers.dat db.log debug.log sporks"}'|sh
+find /root /var/lib/masternodes/ -type f -iname "wallet.dat"|grep -i "bitmoney"|grep -v "bak"|awk '{print "cd "substr($0,1,length($0)-10) " ; rm -rf budget.dat banlist.dat fee_estimates.dat mncache.dat mnpayments.dat peers.dat db.log debug.log sporks"}'|sh
 
 
 echo ""
@@ -59,13 +59,13 @@ echo ""
 echo Startup Services
 echo "" 
 
-find /root  -type f -name "bitmoney.conf"|grep ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoneyd -daemon -reindex -conf="substr($0,1,length($0)) " -datadir="substr($0,1,length($0)-13) " -pid="substr($0,1,length($0)-13) "bitmoney.pid"}'|sh
+find /root  -type f -iname "bitmoney.conf"|grep -i ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoneyd -daemon -reindex -conf="substr($0,1,length($0)) " -datadir="substr($0,1,length($0)-13) " -pid="substr($0,1,length($0)-13) "bitmoney.pid"}'|sh
 
 find /var/lib/masternodes/ -type f -name "bitmoney.conf"|grep ".bitmoney"|grep -v ".bitmoney/"|grep -v "bak"|awk '{print "su masternode -c \"/usr/local/bin/BitMoneyd -daemon -reindex -conf="substr($0,1,length($0)) " -datadir="substr($0,1,length($0)-13) " -pid="substr($0,1,length($0)-13) "bitmoney.pid\""}'|sh
 
 #Getinfo 
 sleep 40
-find /root /var/lib/masternodes/ -type f -name "bitmoney*.conf"|grep "bitmoney"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoney-cli -conf="substr($0,1,length($0))" getinfo"}'|sh
+find /root /var/lib/masternodes/ -type f -iname "bitmoney*.conf"|grep -i "bitmoney"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoney-cli -conf="substr($0,1,length($0))" getinfo"}'|sh
 
 echo ""
 echo Now deposit the collaterals in a wallets and edit the masternodes.conf files updating the TXID
