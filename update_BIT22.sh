@@ -4,6 +4,10 @@ echo ""
 echo This script update Masternode of BitMoney to 2.2.1 version
 echo ""
 
+echo "Dont worry if you see the following error:"
+echo "   find: XXXXXXXXX: No such file or directory"
+echo ""
+
 echo ""
 echo Moving conf files
 echo "" 
