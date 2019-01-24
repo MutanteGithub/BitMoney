@@ -21,9 +21,10 @@ echo ""
 
 find /root /var/lib/masternodes -type f -iname "bitmoney.conf"|grep -i ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoney-cli -conf="substr($0,1,length($0))" -datadir="substr($0,1,length($0)-14) " stop"}'|sh
 
+#Modifing SO services
 find /etc/systemd/system/ -type f -name "bitmoney_*"|awk  '{ori=$0 ; des=$0;  gsub("/etc/systemd/system/","/etc/masternodes/",ori) ; gsub(".service",".conf",ori); gsub("/etc/systemd/system/bitmoney_n","/var/lib/masternodes/bitmoney",des) ; gsub(".service","/bitmoney.conf",des);print "sed "sprintf("%c",39)"s!"ori"!"des"!g"sprintf("%c",39) " " $0 " > " $0"_temp ; cp "$0"_temp "$0}'|sh
 
-find /etc/systemd/system/ -type f -name "bitmoney_*"|awk  '{print "sed "sprintf("%c",39)"s!-daemon!-daemon "sprintf("%c",37)"I!g"sprintf("%c",39) " " $0 " > " $0"_temp ; cp "$0"_temp "$0 }'|sh
+#find /etc/systemd/system/ -type f -name "bitmoney_*"|awk  '{print "sed "sprintf("%c",39)"s!-daemon!-daemon "sprintf("%c",37)"I!g"sprintf("%c",39) " " $0 " > " $0"_temp ; cp "$0"_temp "$0 }'|sh
 
 rm -rf /etc/systemd/system/*_temp
 systemctl daemon-reload
