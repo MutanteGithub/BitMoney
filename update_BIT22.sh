@@ -19,13 +19,20 @@ echo ""
 echo Shutdown Services
 echo "" 
 
-
 find /root /var/lib/masternodes -type f -iname "bitmoney.conf"|grep -i ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoney-cli -conf="substr($0,1,length($0))" -datadir="substr($0,1,length($0)-14) " stop"}'|sh
 
-systemctl -a|grep bitmoney|grep -v "failed"|awk '{print "*"$0}'|awk '{print "systemctl stop "$2}'|sh
+find /etc/systemd/system/ -type f -name "bitmoney_*"|awk  '{ori=$0 ; des=$0;  gsub("/etc/systemd/system/","/etc/masternodes/",ori) ; gsub(".service",".conf",ori); gsub("/etc/systemd/system/bitmoney_n","/var/lib/masternodes/bitmoney",des) ; gsub(".service","/bitmoney.conf",des);print "sed "sprintf("%c",39)"s!"ori"!"des"!g"sprintf("%c",39) " " $0 " > " $0"_temp ; cp "$0"_temp "$0}'|sh
+
+find /etc/systemd/system/ -type f -name "bitmoney_*"|awk  '{print "sed "sprintf("%c",39)"s!-daemon!-daemon "sprintf("%c",37)"I!g"sprintf("%c",39) " " $0 " > " $0"_temp ; cp "$0"_temp "$0 }'|sh
+
+rm -rf /etc/systemd/system/*_temp
+systemctl daemon-reload
+
+find /etc/systemd/system/ -type f -name "bitmoney_*"|awk -F/ '{print "systemctl stop "$5}'|sh
+
+#systemctl -a|grep bitmoney|grep -v "failed"|awk '{print "*"$0}'|awk '{print "systemctl stop "$2}'|sh
 
 ps -fea|grep BitMoneyd|awk '{print "kill -9 "$2}'|sh
-
 
 mv /etc/masternodes /etc/masternodes_old
  
@@ -65,7 +72,9 @@ echo ""
 
 find /root  -type f -iname "bitmoney.conf"|grep -i ".bitmoney/"|grep -v "bak"|awk '{print "/usr/local/bin/BitMoneyd -daemon -reindex -conf="substr($0,1,length($0)) " -datadir="substr($0,1,length($0)-13) " -pid="substr($0,1,length($0)-13) "bitmoney.pid"}'|sh
 
-find /var/lib/masternodes/ -type f -name "bitmoney.conf"|grep ".bitmoney"|grep -v ".bitmoney/"|grep -v "bak"|awk '{print "su masternode -c \"/usr/local/bin/BitMoneyd -daemon -reindex -conf="substr($0,1,length($0)) " -datadir="substr($0,1,length($0)-13) " -pid="substr($0,1,length($0)-13) "bitmoney.pid\""}'|sh
+#find /var/lib/masternodes/ -type f -name "bitmoney.conf"|grep ".bitmoney"|grep -v ".bitmoney/"|grep -v "bak"|awk '{print "su masternode -c \"/usr/local/bin/BitMoneyd -daemon -reindex -conf="substr($0,1,length($0)) " -datadir="substr($0,1,length($0)-13) " -pid="substr($0,1,length($0)-13) "bitmoney.pid\""}'|sh
+
+find /etc/systemd/system/ -type f -name "bitmoney_*"|awk -F/ '{print "systemctl start "$5}'|sh
 
 #Getinfo 
 sleep 40
