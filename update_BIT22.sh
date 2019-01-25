@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo This script update Masternode of BitMoney to 2.2.1 version
+echo This script update Masternode of BitMoney to 2.2.0.2 version
 echo ""
 
 echo "Dont worry if you see the following error:"
@@ -63,7 +63,7 @@ echo ""
 echo Reinstalling BIT
 echo "" 
 
-wget -O - https://github.com/CryptVenture/BitMoneyV22/releases/download/2.2.0.1/BitMoney-2.2.0.1-Linux-16.04.tar.gz | tar -xzC /usr/local/bin
+wget -O - https://github.com/CryptVenture/BitMoneyV22/releases/download/2.2.0.2/BitMoney-2.2.0.2-Linux-16.04.tar.gz | tar -xzC /usr/local/bin
 apt-get -qq install miniupnpc
 apt-get -qq install libzmq5
 
