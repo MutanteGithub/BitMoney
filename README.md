@@ -1,6 +1,7 @@
 # Update to BitMoney 2.2.0.2 version
 
 - Script update your masternode to latested version and are compatible with Weiss and nodemaster instalation.
+- That script make all necessary for update and fork, backup de wallets, modify config files stop and start the services.
 - To run the script you must execute followings commands and follow the instructions:
 
 `wget https://raw.githubusercontent.com/MutanteGithub/BitMoney/master/update_BIT22.sh -O update_BIT22.sh`
