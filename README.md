@@ -1,4 +1,4 @@
-# Update to BitMoney 2.2.1 
+# Update to BitMoney 2.2.0.2
 
 - To run the script you must execute followings commands and follow the instructions:
 
